@@ -7,7 +7,8 @@ import search from "./assets/search.svg";
 import taskPage from "./assets/tasks.svg";
 import history from "./assets/history.svg";
 import TodoItem from "./TodoItem";
-import Modal from "./Modal";
+
+import CustomModal from "./CustomModal";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -50,8 +51,11 @@ function App() {
       task.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  function openModal() {
+  function openModal(): void {
     setIsOpen(true);
+  }
+  function closeModal(): void {
+    setIsOpen(false);
   }
   return (
     <>
@@ -121,7 +125,7 @@ function App() {
             />
           </svg>
         </div>
-      
+        <CustomModal isOpen={modalIsOpen} onRequestClose={closeModal} />
       </main>
     </>
   );
