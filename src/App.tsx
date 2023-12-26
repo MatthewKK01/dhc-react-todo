@@ -13,8 +13,6 @@ import MyModal from "./MyModal";
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  const [newTask, setNewTask] = useState("");
-  const [newDescription, setNewDescription] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -45,11 +43,23 @@ function App() {
     setTasks(updatedTasks);
   };
 
-  const filteredTasks = tasks.filter(
-    (task) =>
-      task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      task.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTasks = tasks.filter((task) => {
+    const matchTitle = task.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchDescription = task.description
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    console.log(
+      "Title:",
+      task.title,
+      "Description:",
+      task.description,
+      "Search Term:",
+      searchTerm
+    );
+    return matchTitle || matchDescription;
+  });
 
   function openModal(): void {
     setIsOpen(true);

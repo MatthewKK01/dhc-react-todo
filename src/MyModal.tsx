@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from "react";
+import  { useState } from "react";
 import "./MyModal.css";
 
 function MyModal({ onRequestClose, addTask }) {
@@ -12,7 +12,7 @@ function MyModal({ onRequestClose, addTask }) {
     const newTask = {
       title: taskName,
       description: description,
-      isCompleted: false,
+      done: false,
     };
     addTask(newTask);
     onRequestClose();
@@ -72,7 +72,7 @@ function MyModal({ onRequestClose, addTask }) {
           />
 
           <button
-            className="bg-[#6a6ce0] mt-2 mb-3 rounded w-full px-10 py-2 w-full text-white cursor-pointer"
+            className="bg-[#6a6ce0] mt-2 mb-3 rounded px-10 py-2 w-full text-white cursor-pointer"
             type="submit"
           >
             Save
