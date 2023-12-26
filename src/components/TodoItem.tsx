@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from "react";
-import checkOne from "./assets/check_one.svg";
-import arrow from "./assets/tabler_chevron-up.svg";
+import { useState } from "react";
+import checkOne from "../assets/check_one.svg";
+import arrow from "../assets/tabler_chevron-up.svg";
 import "./TodoItem.css";
 function TodoItem({ task, index, toggleDone, removeTask, editTask }) {
   const [showDescription, setShowDescription] = useState(false);

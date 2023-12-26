@@ -6,10 +6,10 @@ import settings from "./assets/carbon_settings.svg";
 import search from "./assets/search.svg";
 import taskPage from "./assets/tasks.svg";
 import history from "./assets/history.svg";
-import TodoItem from "./TodoItem";
 
-import MyModal from "./MyModal";
-
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import HistoryPage from "./components/HistoryPage";
+import TasksPage from "./components/TasksPage";
 function App() {
   const [tasks, setTasks] = useState([]);
 
@@ -108,11 +108,15 @@ function App() {
         <div className="switcher flex gap-5 ">
           <div className="flex flex-col">
             <small>Tasks</small>
-            <img src={taskPage} alt="" />
+            <Link to={"/tasks"}>
+              <img src={taskPage} alt="" />
+            </Link>
           </div>
           <div className="flex flex-col">
             <small>History</small>
-            <img src={history} alt="" />
+            <Link to={"/history"}>
+              <img src={history} alt="" />
+            </Link>
           </div>
         </div>
         <a
@@ -123,40 +127,39 @@ function App() {
         </a>
       </div>
       <main className="">
-        <article className="todoList">
-          <ul className="flex flex-col gap-3">
-            {filteredTasks.map((task, index) => (
-              <TodoItem
-                key={index}
-                task={task}
-                index={index}
+        <Routes>
+          <Route
+            path="/tasks"
+            element={
+              <TasksPage
+                filteredTasks={filteredTasks}
                 toggleDone={toggleDone}
                 removeTask={removeTask}
                 editTask={editTask}
+                openModal={openModal}
+                modalIsOpen={modalIsOpen}
+                addTask={addTask}
+                closeModal={closeModal}
               />
-            ))}
-          </ul>
-        </article>
-        <div
-          onClick={openModal}
-          className="bg-[#6A6CE0] flex justify-center items-center cursor-pointer left-1/2 -translate-x-1/2 absolute bottom-[30px] w-[52px] h-[52px] rounded-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-          >
-            <path
-              d="M15.913 9.13039H9.13039V15.913H6.86952V9.13039H0.0869141V6.86952H6.86952V0.0869141H9.13039V6.86952H15.913V9.13039Z"
-              fill="#FFFEFC"
-            />
-          </svg>
-        </div>
-        {modalIsOpen && (
-          <MyModal addTask={addTask} onRequestClose={closeModal} />
-        )}
+            }
+          />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route
+            path="/"
+            element={
+              <TasksPage
+                modalIsOpen={modalIsOpen}
+                addTask={addTask}
+                closeModal={closeModal}
+                filteredTasks={filteredTasks}
+                toggleDone={toggleDone}
+                removeTask={removeTask}
+                editTask={editTask}
+                openModal={openModal}
+              />
+            }
+          />
+        </Routes>
       </main>
     </>
   );
