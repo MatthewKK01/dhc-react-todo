@@ -126,13 +126,7 @@ function App() {
           </svg>
         </div>
         {modalIsOpen && (
-          <MyModal
-            setNewTask={setNewTask}
-            setNewDescription={setNewDescription}
-            addTask={addTask}
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-          />
+          <MyModal addTask={addTask} onRequestClose={closeModal} />
         )}
       </main>
     </>

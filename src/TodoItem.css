@@ -1,0 +1,20 @@
+h1 {
+  color: #30507d;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.description {
+  display: flex;
+  padding: 12px 0px 12px 12px !important;
+  justify-content: flex-start;
+  background: #e8f1fd !important;
+  box-shadow: 1px 1px 4px 0px rgba(48, 80, 125, 0.25) inset !important;
+}
+.description p {
+  color: #6c86a8;
+  font-size: 10px;
+  font-weight: 600;
+}

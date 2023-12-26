@@ -2,13 +2,7 @@
 import React, { useState } from "react";
 import "./MyModal.css";
 
-function MyModal({
-  isOpen,
-  onRequestClose,
-  addTask,
-  setNewTask,
-  setNewDescription,
-}) {
+function MyModal({ onRequestClose, addTask }) {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
   const [isFocused, setIsFocused] = useState(false);
