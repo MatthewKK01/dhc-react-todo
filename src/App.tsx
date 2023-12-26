@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import james from "./assets/james.svg";
 import settings from "./assets/carbon_settings.svg";
@@ -13,18 +13,22 @@ import MyModal from "./MyModal";
 function App() {
   const [tasks, setTasks] = useState([]);
 
-
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
 
-  const addTask = (task) => {
-    setTasks([...tasks, task]);
-  };
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    setTasks(storedTasks);
+  }, []);
 
-  const removeTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
-    setTasks(updatedTasks);
+  const addTask = (task) => {
+    try {
+      const updatedTasks = [...tasks, task];
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error("Error saving tasks to localStorage:", error);
+    }
   };
 
   const editTask = (index, updatedTask) => {
@@ -32,9 +36,24 @@ function App() {
     updatedTasks[index] = { ...updatedTask };
     setTasks(updatedTasks);
   };
+  const removeTask = (index) => {
+    try {
+      const updatedTasks = [...tasks];
+      updatedTasks.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error("Error updating tasks after removal:", error);
+    }
+  };
 
   const clearAllTasks = () => {
-    setTasks([]);
+    try {
+      localStorage.removeItem("tasks");
+      setTasks([]);
+    } catch (error) {
+      console.error("Error clearing all tasks:", error);
+    }
   };
 
   const toggleDone = (index) => {
@@ -105,7 +124,7 @@ function App() {
       </div>
       <main className="">
         <article className="todoList">
-          <ul>
+          <ul className="flex flex-col gap-3">
             {filteredTasks.map((task, index) => (
               <TodoItem
                 key={index}
