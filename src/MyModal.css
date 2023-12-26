@@ -1,0 +1,71 @@
+.input-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.newTaskName {
+  display: flex;
+  width: 311px;
+  height: 29px;
+  padding-top: 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3px;
+  font-size: 10px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1px solid #6a6ce0;
+  opacity: 0.7;
+  background: #fffefc;
+}
+
+.placeholder-label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none !important;
+  transition: 0.3s ease-out;
+
+  color: #b0b0b0;
+
+  font-size: 10px !important;
+
+  font-weight: 400;
+}
+
+.input-container.active .placeholder-label {
+  transform: translateY(-100%) scale(0.8);
+  color: #b0b0b0;
+
+  font-size: 6px;
+
+  font-weight: 600;
+}
+
+/* TextArea */
+
+textarea {
+  display: flex;
+  width: 311px;
+  height: 99px;
+  padding: 19px 0px 65px 12px !important;
+  justify-content: flex-end;
+  align-items: center;
+
+  resize: none;
+  background: #e8f1fd !important;
+  box-shadow: 1px 1px 4px 0px rgba(48, 80, 125, 0.25) inset !important;
+}
+textarea::placeholder {
+  color: #6c86a8;
+
+  font-size: 10px;
+
+  font-weight: 600;
+}
+button {
+  border-radius: 4px;
+  background: #6a6ce0;
+}

@@ -18,3 +18,26 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(144, 138, 138, 0.5);
+  width: 100%;
+  min-height: 100vh;
+}
+.myModal {
+  border-radius: 12px;
+  background: #f6faff;
+  box-shadow: 0px 2px 8px 0px rgba(106, 108, 224, 0.26);
+}
+.myModal h1 {
+  color: #30507d;
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+

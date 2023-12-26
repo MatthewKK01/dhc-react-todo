@@ -8,19 +8,19 @@ import taskPage from "./assets/tasks.svg";
 import history from "./assets/history.svg";
 import TodoItem from "./TodoItem";
 
-import CustomModal from "./CustomModal";
+import MyModal from "./MyModal";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+
   const [newTask, setNewTask] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
 
-  const addTask = () => {
-    if (newTask.trim() !== "") {
-      setTasks([...tasks, { title: newTask, description: "", done: false }]);
-      setNewTask("");
-    }
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
   };
 
   const removeTask = (index) => {
@@ -75,25 +75,25 @@ function App() {
         />
         <img src={search} alt="" />
       </div>
-      <main className="">
-        <div className="clearer flex justify-between items-end">
-          <div className="switcher flex gap-5 ">
-            <div className="flex flex-col">
-              <small>Tasks</small>
-              <img src={taskPage} alt="" />
-            </div>
-            <div className="flex flex-col">
-              <small>History</small>
-              <img src={history} alt="" />
-            </div>
+      <div className="clearer flex justify-between items-end">
+        <div className="switcher flex gap-5 ">
+          <div className="flex flex-col">
+            <small>Tasks</small>
+            <img src={taskPage} alt="" />
           </div>
-          <a
-            className="cursor-pointer text-[#30507D] text-xs underline"
-            onClick={clearAllTasks}
-          >
-            Clear all Tasks
-          </a>
+          <div className="flex flex-col">
+            <small>History</small>
+            <img src={history} alt="" />
+          </div>
         </div>
+        <a
+          className="cursor-pointer text-[#30507D] text-xs underline"
+          onClick={clearAllTasks}
+        >
+          Clear all Tasks
+        </a>
+      </div>
+      <main className="">
         <article className="todoList">
           <ul>
             {filteredTasks.map((task, index) => (
@@ -125,7 +125,15 @@ function App() {
             />
           </svg>
         </div>
-        <CustomModal isOpen={modalIsOpen} onRequestClose={closeModal} />
+        {modalIsOpen && (
+          <MyModal
+            setNewTask={setNewTask}
+            setNewDescription={setNewDescription}
+            addTask={addTask}
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+          />
+        )}
       </main>
     </>
   );
