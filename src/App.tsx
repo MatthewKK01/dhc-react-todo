@@ -17,8 +17,11 @@ function App() {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    const localStorageCompletedTasks =
+      JSON.parse(localStorage.getItem("completedTasks")) || [];
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     setTasks(storedTasks);
+    setCompletedTasks(localStorageCompletedTasks);
   }, []);
 
   // Use the useLocation hook to get the current location
@@ -46,20 +49,35 @@ function App() {
   };
 
   const clearAllTasks = () => {
-    localStorage.removeItem("tasks");
+    localStorage.clear();
     setTasks([]);
   };
 
-  const toggleDone = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].done = !updatedTasks[index].done;
+  const toggleDone = (taskId) => {
+    console.log(taskId);
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        // Toggle the 'done' property
+        return { ...task, done: !task.done };
+      }
+      return task;
+    });
 
-    if (updatedTasks[index].done) {
-      const updatedCompletedTasks = [...completedTasks, updatedTasks[index]];
-      setCompletedTasks(updatedCompletedTasks);
-    }
+    const updatedCompletedTasks = updatedTasks.filter(
+      (task) => task.done === true
+    );
 
+    const updatedIncompleteTasks = updatedTasks.filter(
+      (task) => task.done === false
+    );
+
+    localStorage.setItem("tasks", JSON.stringify(updatedIncompleteTasks));
+    localStorage.setItem(
+      "completedTasks",
+      JSON.stringify(updatedCompletedTasks)
+    );
     setTasks(updatedTasks);
+    setCompletedTasks(updatedCompletedTasks);
   };
 
   const filteredTasks = tasks.filter((task) => {
