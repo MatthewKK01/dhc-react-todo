@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { useState } from "react";
 import checkOne from "../assets/check_one.svg";
 import arrow from "../assets/tabler_chevron-up.svg";
@@ -11,13 +9,12 @@ function HistoryPage({ completedTasks, setCompletedTasks }) {
     setShowDescription(!showDescription);
   };
 
-  const removeCompletedTask = (index) => {
+  const removeCompletedTask = (index: string) => {
     console.log(index);
     const updatedTask = completedTasks.filter((task) => task.id !== index);
     setCompletedTasks(updatedTask);
     localStorage.setItem("completedTasks", JSON.stringify(updatedTask));
   };
-  
 
   return (
     <ul>

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import checkOne from "../assets/check_one.svg";
 import arrow from "../assets/tabler_chevron-up.svg";

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import "./App.css";
 import james from "./assets/james.svg";
@@ -24,13 +23,12 @@ function App() {
     setCompletedTasks(localStorageCompletedTasks);
   }, []);
 
-  // Use the useLocation hook to get the current location
   const location = useLocation();
 
-  // Define a function to determine if a route is active
-  const isRouteActive = (path) => location.pathname === path;
+  //  determine if a route is active
+  const isRouteActive = (path: string) => location.pathname === path;
 
-  const addTask = (task) => {
+  const addTask = (task: string) => {
     const updatedTasks = [...tasks, task];
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     setTasks(updatedTasks);
@@ -41,6 +39,7 @@ function App() {
     updatedTasks[index] = { ...updatedTask };
     setTasks(updatedTasks);
   };
+  
   const removeTask = (index: string) => {
     console.log(index);
     const updatedTasks = tasks.filter((task) => task.id !== index);
@@ -53,7 +52,7 @@ function App() {
     setTasks([]);
   };
 
-  const toggleDone = (taskId) => {
+  const toggleDone = (taskId: string) => {
     console.log(taskId);
     const updatedTasks = tasks.map((task) => {
       if (task.id === taskId) {
@@ -89,6 +88,8 @@ function App() {
       .includes(searchTerm.toLowerCase());
     return !task.done && (matchTitle || matchDescription);
   });
+
+  // functionalities for modal
 
   function openModal(): void {
     setIsOpen(true);
