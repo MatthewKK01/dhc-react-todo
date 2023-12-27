@@ -11,6 +11,11 @@
 
   background: #e8f1fd;
 }
+#root {
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
 
 body {
   font-family: "Poppins", sans-serif;
@@ -39,5 +44,3 @@ body {
   font-weight: 700;
   line-height: normal;
 }
-
-
