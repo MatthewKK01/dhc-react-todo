@@ -17,11 +17,11 @@ const TasksPage = ({
     <div>
       <article className="todoList">
         <ul className="flex flex-col gap-3">
-          {filteredTasks.map((task, index) => (
+          {filteredTasks.map((task) => (
             <TodoItem
-              key={index}
+              key={task.id}
               task={task}
-              index={index}
+              index={task.id}
               toggleDone={toggleDone}
               removeTask={removeTask}
               editTask={editTask}

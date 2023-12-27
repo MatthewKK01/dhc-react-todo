@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import  { useState } from "react";
+import { useState } from "react";
 import "./MyModal.css";
+import { v4 as uuidv4 } from "uuid";
 
 function MyModal({ onRequestClose, addTask }) {
   const [taskName, setTaskName] = useState("");
@@ -10,6 +11,7 @@ function MyModal({ onRequestClose, addTask }) {
   function Save(event) {
     event.preventDefault();
     const newTask = {
+      id: uuidv4(),
       title: taskName,
       description: description,
       done: false,

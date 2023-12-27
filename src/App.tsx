@@ -7,12 +7,12 @@ import search from "./assets/search.svg";
 import taskPage from "./assets/tasks.svg";
 import history from "./assets/history.svg";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import HistoryPage from "./components/HistoryPage";
 import TasksPage from "./components/TasksPage";
 function App() {
   const [tasks, setTasks] = useState([]);
-
+  const [completedTasks, setCompletedTasks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -21,14 +21,16 @@ function App() {
     setTasks(storedTasks);
   }, []);
 
+  // Use the useLocation hook to get the current location
+  const location = useLocation();
+
+  // Define a function to determine if a route is active
+  const isRouteActive = (path) => location.pathname === path;
+
   const addTask = (task) => {
-    try {
-      const updatedTasks = [...tasks, task];
-      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-      setTasks(updatedTasks);
-    } catch (error) {
-      console.error("Error saving tasks to localStorage:", error);
-    }
+    const updatedTasks = [...tasks, task];
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    setTasks(updatedTasks);
   };
 
   const editTask = (index, updatedTask) => {
@@ -37,28 +39,26 @@ function App() {
     setTasks(updatedTasks);
   };
   const removeTask = (index) => {
-    try {
-      const updatedTasks = [...tasks];
-      updatedTasks.splice(index, 1);
-      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-      setTasks(updatedTasks);
-    } catch (error) {
-      console.error("Error updating tasks after removal:", error);
-    }
+    console.log(index);
+    const updatedTasks = tasks.filter((task) => task.id !== index);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    setTasks(updatedTasks);
   };
 
   const clearAllTasks = () => {
-    try {
-      localStorage.removeItem("tasks");
-      setTasks([]);
-    } catch (error) {
-      console.error("Error clearing all tasks:", error);
-    }
+    localStorage.removeItem("tasks");
+    setTasks([]);
   };
 
   const toggleDone = (index) => {
     const updatedTasks = [...tasks];
     updatedTasks[index].done = !updatedTasks[index].done;
+
+    if (updatedTasks[index].done) {
+      const updatedCompletedTasks = [...completedTasks, updatedTasks[index]];
+      setCompletedTasks(updatedCompletedTasks);
+    }
+
     setTasks(updatedTasks);
   };
 
@@ -69,15 +69,7 @@ function App() {
     const matchDescription = task.description
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    console.log(
-      "Title:",
-      task.title,
-      "Description:",
-      task.description,
-      "Search Term:",
-      searchTerm
-    );
-    return matchTitle || matchDescription;
+    return !task.done && (matchTitle || matchDescription);
   });
 
   function openModal(): void {
@@ -106,16 +98,28 @@ function App() {
       </div>
       <div className="clearer flex justify-between items-end">
         <div className="switcher flex gap-5 ">
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center">
             <small>Tasks</small>
             <Link to={"/tasks"}>
-              <img src={taskPage} alt="" />
+              <div
+                className={`bg-${
+                  isRouteActive("/tasks") ? "[#6A6CE0]" : "[#D8D8D8]"
+                } rounded-lg p-1 w-9 h-9`}
+              >
+                <img src={taskPage} alt="" />
+              </div>
             </Link>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center">
             <small>History</small>
             <Link to={"/history"}>
-              <img src={history} alt="" />
+              <div
+                className={`bg-${
+                  isRouteActive("/history") ? "[#6A6CE0]" : "[#D8D8D8]"
+                } rounded-lg p-1 w-9 h-9`}
+              >
+                <img src={history} alt="" />
+              </div>
             </Link>
           </div>
         </div>
@@ -126,7 +130,7 @@ function App() {
           Clear all Tasks
         </a>
       </div>
-      <main className="">
+      <main className="mt-4">
         <Routes>
           <Route
             path="/tasks"
@@ -143,7 +147,10 @@ function App() {
               />
             }
           />
-          <Route path="/history" element={<HistoryPage />} />
+          <Route
+            path="/history"
+            element={<HistoryPage completedTasks={completedTasks} />}
+          />
           <Route
             path="/"
             element={

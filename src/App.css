@@ -19,3 +19,8 @@ li {
   background: #f6faff;
   box-shadow: 0px 2px 8px 0px rgba(106, 108, 224, 0.26);
 }
+small {
+  color: #30507d;
+  font-size: 10px !important;
+  font-weight: 500;
+}

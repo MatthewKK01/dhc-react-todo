@@ -1,7 +1,15 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-function HistoryPage() {
-  return <div>HistoryPage</div>;
+import TodoItem from "./TodoItem";
+
+function HistoryPage({ completedTasks }) {
+  return (
+    <ul>
+      {completedTasks.map((task, index) => (
+        <li>{task.title}</li>
+      ))}
+    </ul>
+  );
 }
 
 export default HistoryPage;
