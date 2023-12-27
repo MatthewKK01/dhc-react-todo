@@ -62,8 +62,12 @@ function App() {
   };
 
   const clearAllTasks = () => {
-    localStorage.clear();
+    localStorage.removeItem("tasks");
     setTasks([]);
+  };
+  const ClearHistory = () => {
+    localStorage.removeItem("completedTasks");
+    setCompletedTasks([]);
   };
 
   const toggleDone = (taskId: string) => {
@@ -156,12 +160,21 @@ function App() {
             </Link>
           </div>
         </div>
-        <a
-          className="cursor-pointer text-[#30507D] text-xs underline"
-          onClick={clearAllTasks}
-        >
-          Clear all Tasks
-        </a>
+        {isRouteActive("/tasks") ? (
+          <a
+            className="cursor-pointer text-[#30507D] text-xs underline"
+            onClick={clearAllTasks}
+          >
+            Clear all Tasks
+          </a>
+        ) : (
+          <a
+            className="cursor-pointer text-[#30507D] text-xs underline"
+            onClick={ClearHistory}
+          >
+            Clear history
+          </a>
+        )}
       </div>
       <main className="mt-4">
         <Routes>
