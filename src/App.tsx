@@ -5,7 +5,7 @@ import settings from "./assets/carbon_settings.svg";
 import search from "./assets/search.svg";
 import taskPage from "./assets/tasks.svg";
 import history from "./assets/history.svg";
-
+import * as Yup from "yup";
 import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import HistoryPage from "./components/HistoryPage";
 import TasksPage from "./components/TasksPage";
@@ -15,11 +15,30 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
 
+  // schema from validation
+  const taskSchema = Yup.object({
+    id: Yup.string().required(),
+    title: Yup.string().required("Title is required"),
+    description: Yup.string(),
+    done: Yup.boolean(),
+  });
+
   useEffect(() => {
     const localStorageCompletedTasks =
       JSON.parse(localStorage.getItem("completedTasks")) || [];
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    setTasks(storedTasks);
+
+    // Validate tasks against the schema
+    const validStoredTasks = storedTasks.map((task) => {
+      try {
+        return taskSchema.validateSync(task);
+      } catch (error) {
+        console.error(`Invalid task found: ${JSON.stringify(task)}`);
+        return null;
+      }
+    });
+
+    setTasks(validStoredTasks.filter(Boolean));
     setCompletedTasks(localStorageCompletedTasks);
   }, []);
 
@@ -29,14 +48,9 @@ function App() {
   const isRouteActive = (path: string) => location.pathname === path;
 
   const addTask = (task: string) => {
-    const updatedTasks = [...tasks, task];
+    const validTask = taskSchema.validateSync(task);
+    const updatedTasks = [...tasks, validTask];
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-    setTasks(updatedTasks);
-  };
-
-  const editTask = (index, updatedTask) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index] = { ...updatedTask };
     setTasks(updatedTasks);
   };
 
@@ -158,7 +172,6 @@ function App() {
                 filteredTasks={filteredTasks}
                 toggleDone={toggleDone}
                 removeTask={removeTask}
-                editTask={editTask}
                 openModal={openModal}
                 modalIsOpen={modalIsOpen}
                 addTask={addTask}
@@ -185,7 +198,6 @@ function App() {
                 filteredTasks={filteredTasks}
                 toggleDone={toggleDone}
                 removeTask={removeTask}
-                editTask={editTask}
                 openModal={openModal}
               />
             }

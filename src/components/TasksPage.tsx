@@ -7,7 +7,6 @@ const TasksPage = ({
   filteredTasks,
   toggleDone,
   removeTask,
-  editTask,
   openModal,
   addTask,
   closeModal,
@@ -17,6 +16,7 @@ const TasksPage = ({
     <div>
       <article className="todoList">
         <ul className="flex flex-col gap-3">
+          {filteredTasks.length === 0 && <hr />}
           {filteredTasks.map((task) => (
             <TodoItem
               key={task.id}
@@ -24,7 +24,6 @@ const TasksPage = ({
               index={task.id}
               toggleDone={toggleDone}
               removeTask={removeTask}
-              editTask={editTask}
             />
           ))}
         </ul>

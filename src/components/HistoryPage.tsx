@@ -18,6 +18,7 @@ function HistoryPage({ completedTasks, setCompletedTasks }) {
 
   return (
     <ul>
+      {completedTasks.length === 0 && <hr />}
       {completedTasks.map((task) => (
         <li>
           <div className="flex items-center justify-between  mb-[30px]">

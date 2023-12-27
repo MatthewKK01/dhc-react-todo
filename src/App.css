@@ -24,3 +24,6 @@ small {
   font-size: 10px !important;
   font-weight: 500;
 }
+hr {
+  background: rgba(106, 108, 224, 0.3) !important;
+}
