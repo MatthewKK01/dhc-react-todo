@@ -6,7 +6,7 @@ import search from "./assets/search.svg";
 import taskPage from "./assets/tasks.svg";
 import history from "./assets/history.svg";
 
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import HistoryPage from "./components/HistoryPage";
 import TasksPage from "./components/TasksPage";
 function App() {
@@ -39,7 +39,7 @@ function App() {
     updatedTasks[index] = { ...updatedTask };
     setTasks(updatedTasks);
   };
-  
+
   const removeTask = (index: string) => {
     console.log(index);
     const updatedTasks = tasks.filter((task) => task.id !== index);
@@ -121,8 +121,8 @@ function App() {
             <small>Tasks</small>
             <Link to={"/tasks"}>
               <div
-                className={`bg-${
-                  isRouteActive("/tasks") ? "[#6A6CE0]" : "[#D8D8D8]"
+                className={`${
+                  isRouteActive("/tasks") ? "bg-[#6A6CE0]" : "bg-[#D8D8D8]"
                 } rounded-lg p-1 w-9 h-9`}
               >
                 <img src={taskPage} alt="" />
@@ -133,8 +133,8 @@ function App() {
             <small>History</small>
             <Link to={"/history"}>
               <div
-                className={`bg-${
-                  isRouteActive("/history") ? "[#6A6CE0]" : "[#D8D8D8]"
+                className={`${
+                  isRouteActive("/history") ? "bg-[#6A6CE0]" : "bg-[#D8D8D8]"
                 } rounded-lg p-1 w-9 h-9`}
               >
                 <img src={history} alt="" />
@@ -176,7 +176,7 @@ function App() {
             }
           />
           <Route
-            path="/"
+            path="*"
             element={
               <TasksPage
                 modalIsOpen={modalIsOpen}
@@ -190,6 +190,7 @@ function App() {
               />
             }
           />
+          <Route path="/*" element={<Navigate to="/tasks" replace />} />
         </Routes>
       </main>
     </>
