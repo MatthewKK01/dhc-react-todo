@@ -41,7 +41,7 @@ function App() {
     updatedTasks[index] = { ...updatedTask };
     setTasks(updatedTasks);
   };
-  const removeTask = (index) => {
+  const removeTask = (index: string) => {
     console.log(index);
     const updatedTasks = tasks.filter((task) => task.id !== index);
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
@@ -167,7 +167,12 @@ function App() {
           />
           <Route
             path="/history"
-            element={<HistoryPage completedTasks={completedTasks} />}
+            element={
+              <HistoryPage
+                setCompletedTasks={setCompletedTasks}
+                completedTasks={completedTasks}
+              />
+            }
           />
           <Route
             path="/"

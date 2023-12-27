@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from "react";
+
 import TodoItem from "./TodoItem";
 import MyModal from "./MyModal";
 
